@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<body class="text-center">
+    <div class="container" style="max-width: 500px; margin: auto;">
+        <form method="POST" class="form-signin" style="color:white">
+            {{ form.hidden_tag() }}
+            <br>
+            <h1 class="h3 mb-3 font-weight-normal">
+                Please Login
+            </h1>
+            <br>
+            {{ form.username.label() }}
+            {{ form.username(class="form-control", placeholder="User Name") }}
+
+            <br>
+
+            {{ form.password.label() }}
+            {{ form.password(class="form-control", placeholder="Password") }}
+
+            <br>
+
+            {{ form.submit(class="btn btn-lg btn-block btn-primary") }}
+            <br>
+            <div class="checkbox mb-3">
+                <h6>Do not have an account?</h6>
+                <a class="btn btn-sm btn-secondary" href="{{ url_for('register_page') }}">Register</a>
+             </div>
+
+        </form>
+    </div>
+
+    <script>
+        window.onload = function() {
+            var message = "{{ get_flashed_messages()|safe }}";
+            if (message.length>2) {
+                alert(message);  
+            }
+        };
+    </script>
+    
+</body>
+
+
+{% endblock %}

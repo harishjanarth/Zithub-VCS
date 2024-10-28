@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+
+{% block content %} 
+<body>
+    <div class="hidden" style="width:auto; height: auto; background-image: linear-gradient(rgba(0, 0, 0, 0.423),rgb(0, 0, 0)),url('https://www.perforce.com/sites/default/files/styles/social_preview_image/public/image/2020-05/image-blog-version-control-best-practices.jpg?itok=gY1pD6rn');" >
+    
+    <section>
+        <div class="head hidden">
+        <h2 style="font-size:xx-large;">
+            Welcome to ZitHub!!
+        </h2>
+        </div>
+        <div class="head hidden">
+        <p style="font-size: x-large;">Your very own minimalistic version control solution!!</p>
+        </div>        
+   </section>
+    </div>
+    <section class="section_small"></section>
+    <section class="section_small"></section>
+
+    <div class="hidden" style="width: auto; height: 500px; background-image: linear-gradient(rgba(0, 0, 0, 0.423),rgb(0, 0, 0)),url('https://www.perforce.com/sites/default/files/image/2023-03/vcs-blog-what-is-version-control.jpg');" >
+    <section>
+    <h1 class="head hidden" style="font-size:xx-large;">About ZitHub: </h1>
+    <div class="head hidden" style="font-size: x-large;">
+    <p >
+        Welcome to ZitHub, a powerful and intuitive web application designed to streamline your version control processes.
+    </p>  
+    <p> 
+        Whether you're a developer, designer, or content creator, ZitHub simplifies the way you manage your projects by providing seamless version tracking and collaboration tools.
+    </p>  
+    <p>
+        With ZitHub, you can easily track changes, revert to previous versions, and collaborate with team members in real-time.
+    </p>    
+    <p>
+        Our user-friendly interface ensures that both beginners and experienced users can navigate effortlessly, allowing you to focus on what truly matters—your work.
+    </p> 
+    </div>
+    </section>
+    </div> 
+    <section class="section_small"></section>
+    <section class="section_small"></section>
+    <div class="hidden" style="width: auto; height: 700px; background-image: linear-gradient(rgba(0, 0, 0, 0.423),rgb(0, 0, 0)),url('https://i.pinimg.com/736x/37/d7/36/37d7365a3c07a6ee3f3a29c23083c61e.jpg');" >
+    <section class="hidden">
+        <h1 class="head hidden">Key Features</h1>
+        <ul class="head hidden" style="font-size: x-large;">
+            <li>Intuitive Interface: Our clean and simple design ensures that both beginners and seasoned developers can navigate the platform with ease.</li>
+            <li>Real-time Collaboration: Work with your team in real time, making it easy to share updates, review changes, and merge code efficiently.</li>
+            <li>Comprehensive Version Tracking: Keep a detailed history of all your project changes, allowing you to revert to previous versions whenever necessary.</li>
+            <li>Robust Security: Protect your code and projects with advanced security features, ensuring that your work is safe and secure.</li>
+    
+        </ul>
+    </section>
+    </div>
+    
+    <div class="hidden">
+    <section class="section_small"></section>    
+   <section class="section_small">
+        <h3>Developed by:</h3>
+        <ul style="font-size: x-large;">
+            <li class="head hidden">ArulmozhiVarman Velusamy</li>
+            <li class="head hidden">Harish J</li>
+            <li class="head hidden">Eeshwar E</li>
+            <li class="head hidden">Anirudh Anand</li>
+        </ul>
+   </section>
+    </div>
+        
+</body>
+
+<style>
+    section {
+        display: grid;
+        place-items: center;
+        align-content: center;
+        min-height: 100vh; /* Ensures each section fills the full height */
+    }
+    .section_small {
+        display: grid;
+        place-items: center;
+        align-content: center;
+        min-height: 5vh; /* Ensures each section fills the full height */
+    }
+
+    
+    .hidden {
+        opacity: 0;
+        filter: blur(5px);
+        transform: translateX(-100%);
+        transition: all 1s;
+    }
+
+    .show {
+        opacity: 1;
+        filter: blur(0px);
+        transform: translateX(0%);
+    }
+
+    /* Explicit image dimensions for better visibility */
+    .sliding-image {
+        width: 400px;  /* Set the image width to 400 pixels */
+        height: 300px; /* Set the image height to 300 pixels */
+        max-width: 100%; /* Ensures it doesn’t overflow the container */
+        object-fit: contain; /* Ensures the image doesn't stretch */
+    }
+    .hidden:nth-child(1)
+    {
+
+        transition-delay: 50ms;
+    }
+    .hidden:nth-child(2)
+    {
+
+        transition-delay: 100ms;
+    }
+    .hidden:nth-child(3)
+    {
+
+        transition-delay: 150ms;
+    }
+    .hidden:nth-child(4)
+    {
+
+        transition-delay: 200ms;
+    }
+
+</style>
+
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('show');
+            } else {
+                entry.target.classList.remove('show');
+            }
+        });
+    });
+
+    const hiddenElements = document.querySelectorAll('.hidden');
+    hiddenElements.forEach((el) => observer.observe(el));
+</script>
+
+{% endblock %}

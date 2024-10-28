@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 class="commit-title">Commit History for {{ repo.reponame }}</h2>
+
+<div class="commit-history-container">
+    {% if commit_history %}
+        <ul class="commit-list">
+            {% for commit in commit_history %}
+                <li class="commit-item">
+                    <div class="commit-content">
+                        <div class="commit-message">
+                            <strong>Message:</strong> {{ commit.message }}
+                        </div>
+                        <div class="commit-details">
+                            <div class="commit-timestamp">
+                                <strong>Timestamp:</strong> {{ commit.timestamp }}
+                            </div>
+                            <div class="commit-file-changes">
+                                <strong>File Changes:</strong> {{ commit.file_changes }}
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <hr>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="no-commits">No commit history available for this repository.</p>
+    {% endif %}
+</div>
+
+
+<div class="back-link">
+    <a href="{{ url_for('repo_view', repo_id=repo.id) }}" class="btn btn-secondary">
+        <i class="bi bi-sign-turn-slight-left" style="font-size: larger"></i>
+        Back to Repository
+    </a>
+</div>
+
+<style>
+    .back-link {
+        display: flex;
+        justify-content: center;  /* Centers the content horizontally */
+        margin-top: auto;  /* Pushes the link to the bottom */
+        margin-bottom: 20px;  /* Adds bottom spacing */
+    }
+
+    .back-link a {
+        color: #f4f4f4;
+        font-size: 15px;
+        text-decoration: none;
+    }
+
+    .back-link a:hover {
+        text-decoration: underline;
+    }
+
+    .commit-title {
+        text-align: center;                /* Center the title */
+        font-size: 2rem;                /* Font size */
+        font-weight: bold;                /* Make the text bold */
+        color: #ffffff;
+        margin-top: 20px;                   /* White text color */
+        margin-bottom: 20px;              /* Space below the title */
+        letter-spacing: 2px;              /* Increase space between letters */
+        border-radius: 8px;               /* Rounded corners for the background */
+        padding: 15px 20px;               /* Padding around the text */
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+    }
+
+    .commit-title::after {
+    content: "";
+    display: block;
+    width: 200px; /* Set underline width */
+    height: 4px; /* Underline thickness */
+    background-color: #3498db; /* Light blue underline */
+    margin: 10px auto; /* Center the underline */
+    border-radius: 2px; /* Smooth underline edges */
+    }
+
+    .commit-history-container {
+        max-width: 800px; /* Limit the width for better readability */
+        margin: 0 auto; /* Center the container */
+        background-color: #212121; /* Dark background for contrast */
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .commit-list {
+        list-style: none; /* Remove default list styling */
+        padding: 0; /* Remove padding */
+        margin: 0; /* Remove margin */
+    }
+
+    .commit-item {
+        margin-bottom: 15px;
+        padding: 10px;
+        background-color: #2c2c2c;
+        border-radius: 4px;
+        color: #ffffff;
+        position: relative;
+        overflow: hidden; /* Hide content overflow */
+        cursor: pointer;
+        transition: background-color 0.2s ease; /* Smooth transition on hover */
+
+    }
+
+    .commit-item:hover {
+    background-color: #484848; /* Slightly darker background on hover */
+    }
+
+    .commit-content {
+    transition: transform 0.2s ease, opacity 0.3s ease;
+    }
+
+    .commit-details {
+        display: none; /* Hide details initially */
+        margin-top: 10px;
+    }
+
+    .commit-item:hover .commit-details {
+    display: block; /* Show details on hover */
+    }
+
+
+    .commit-message {
+        font-weight: bold; /* Emphasize message */
+    }
+
+    .commit-timestamp, .commit-file-changes {
+        font-size: 0.9rem; /* Smaller font for timestamp and file changes */
+        color: #b0b0b0; /* Lighter gray for secondary text */
+    }
+
+    .no-commits {
+        text-align: center;
+        color: #b0b0b0;
+        font-size: 1.2rem;
+    }
+
+    .back-btn {
+        display: block;
+        width: 200px; /* Fixed width for the button */
+        margin: 20px auto; /* Center the button */
+        text-align: center;
+        padding: 10px;
+        background-color: #1a86cf; /* Button color */
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+    }
+
+    .back-btn:hover {
+        background-color: #2980b9; /* Darker shade on hover */
+    }
+
+    hr {
+        border: none; /* Remove default border */
+        border-top: 1px solid #ffffff; /* Add custom border */
+        margin: 15px 0; /* Margin around the line */
+    }
+</style>
+
+{% endblock %}

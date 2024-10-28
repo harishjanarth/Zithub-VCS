@@ -1,0 +1,233 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="form-container">
+    <div>
+        <h1 class="my-repos-heading">My Repositories</h1>
+        <!-- Display User Repositories -->
+        <ul class="repo-list">
+            {% for repo in repos %}
+                <li>
+                    <a href="{{ url_for('repo_view', repo_id=repo.id) }}" style="text-align: center;">
+                        {{ repo.reponame }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div>
+        <h2 class="forked-repos-heading">Forked Repositories</h2>
+        <!-- Display Forked Repositories -->
+        <ul class="repo-list">
+            {% for repo in forked_repos %}
+                <li>
+                    <a href="{{ url_for('repo_view', repo_id=repo.id) }}" style="text-align: center;">
+                        {{ repo.reponame }} (Forked from {{ repo.fork_origin.user.username }})
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <hr>
+    <div class="create">
+        <form method="POST" enctype="multipart/form-data">
+            <div class="form-group" style="max-width: 500px; margin: auto;">
+                <label for="repo_name" style="font-size: x-large">Create Repository:</label>
+                <input type="text" name="repo_name" class="form-control" placeholder="Repository Name">
+
+                <label for="visibility">Repository Visibility:</label>
+                <select name="visibility" id="visibility">
+                    <option value="public">Public</option>
+                    <option value="private">Private</option>
+                </select>
+
+                <button type="submit" class="btn btn-primary mt-2">Create Repository</button>
+            </div>
+        </form>
+    </div>
+    
+    <script>
+        window.onload = function() {
+            var message = "{{ get_flashed_messages()|safe }}";
+            if (message.length > 2) {
+                alert(message);  
+            }
+        };
+    </script>
+    
+    <hr>
+
+    <div class="upload">
+        <!-- File Upload Form -->
+        <form method="POST" enctype="multipart/form-data">
+            <div class="form-group" style="max-width: 500px; margin: auto;">
+                <label for="repo" style="font-size: x-large;">Choose Repository:</label>
+                <select name="repo_id" class="form-control">
+                    {% for repo in repos %}
+                        <option value="{{ repo.id }}">{{ repo.reponame }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group file-upload-row">
+                <label for="file"></label>
+                <input type="file" name="file" class="form-control-file" style="flex-grow: 1;">
+                <input type="text" name="commit_message" placeholder="Add a commit message">
+                <button type="submit" class="btn btn-success mt-2" style="margin-left: 15px;white-space: nowrap;">Upload File</button>
+            </div>
+        </form>
+
+    <div class="search">
+        <form method="GET" action="{{ url_for('dashboard') }}">
+            <input type="text" name="query" placeholder="Search repositories..." required>
+            <button type="submit">Search</button>
+        </form>
+        <br>
+
+        <h3>Search Results</h3>
+        <ul>
+            {% for repo in search_repos %}
+                <li>
+                    {{ repo.reponame }} (Owner: {{ repo.user.username }})
+                    <!-- Fork Button -->
+                    <form method="POST" action="{{ url_for('fork_repo', repo_id=repo.id) }}" style="display: inline;">
+                        <button type="submit" class="btn btn-secondary btn-sm">Fork</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<style>
+/* Container for all sections */
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 40px; /* Adds space between the sections */
+    width: 100%;
+    padding: 20px;
+}
+
+.create,.search {
+    background-color: #00000000;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 100%;
+    max-width: 600px;
+}
+
+.create h3, .search h3 {
+    text-align: center;
+}
+
+.upload
+{
+    background-color: #00000000;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 100%;
+    max-width: 600px;
+    text-align: justify; 
+}
+
+.create h3, .upload h3, .search h3 {
+    text-align: center;
+}
+
+hr {
+    width: 100%;
+    max-width: 600px;
+    margin: 30px 0;
+    border: none;
+    border-top: 1px solid #ffffff;
+}
+
+.search form {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.repo-list {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.repo-list li {
+    background-color: #212121;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.repo-list li:hover {
+    background-color: #3498db;
+    transform: translateY(-5px);
+}
+
+.repo-list li a {
+    text-decoration: none;
+    font-size: 1.2rem;
+    color: #ffffff;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.repo-list li:hover a {
+    color: white;
+}
+
+.my-repos-heading {
+    font-size: 2.5rem; /* Large font size for emphasis */
+    font-family: 'Arial', sans-serif; /* Choose a modern, clean font */
+    text-align: center; /* Center the heading */
+    color: #ffffff; /* Dark blue-gray color for a professional look */
+    text-transform: uppercase; /* Make the text uppercase */
+    letter-spacing: 3px; /* Add spacing between letters for elegance */
+    position: relative; /* For adding the underline effect */
+    margin-bottom: 30px; /* Add space below the heading */
+}
+
+.my-repos-heading::after {
+    content: "";
+    display: block;
+    width: 150px; /* Set underline width */
+    height: 4px; /* Underline thickness */
+    background-color: #3498db; /* Light blue underline */
+    margin: 10px auto; /* Center the underline */
+    border-radius: 2px; /* Smooth underline edges */
+}
+
+.forked-repos-heading {
+    font-size: 2rem; /* Customize the font size */
+    font-family: 'Arial', sans-serif; /* Modern font */
+    text-align: center; /* Center the heading */
+    color: #ffffff; /* White text color */
+    text-transform: uppercase; /* Make text uppercase */
+    letter-spacing: 2px; /* Add letter spacing */
+    margin-bottom: 20px; /* Add some space below */
+}
+
+.forked-repos-heading::after {
+    content: "";
+    display: block;
+    width: 150px; /* Set underline width */
+    height: 4px; /* Underline thickness */
+    background-color: #3498db; /* Light blue underline */
+    margin: 10px auto; /* Center the underline */
+    border-radius: 2px; /* Smooth underline edges */
+}
+
+
+</style>
+{% endblock %}

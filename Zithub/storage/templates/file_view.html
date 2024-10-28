@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    /* Style for centering the content */
+    body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #2d2d2d; /* Background color */
+        color: white; /* Text color */
+    }
+
+    /* Styling for the content */
+    h2 {
+        color: white;  /* Custom color for the heading */
+        margin-bottom: 20px;
+    }
+
+    pre {
+        background-color: #1c1c1c; 
+        color: #ffffff; 
+        padding: 20px;
+        border-radius: 5px;
+        font-family: 'Courier New', Courier, monospace;
+        max-width: 80%;
+        max-height: 60vh; /* Control height with vertical scrolling if needed */
+        overflow: auto;  /* Add scrolling if content overflows */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);  
+    }
+
+    a {
+        color: #3498db; 
+        text-decoration: none;
+        margin-top: 20px;
+        font-size: 18px;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    .navbar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+    }
+    body {
+        margin-top: 60px;
+    }
+    
+</style>
+
+<body>
+    <h2>Content of: {{ filename }}</h2>
+    <pre>{{ content }}</pre>  <!-- Display the file content inside a preformatted text block -->
+
+    <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+
+    <script>
+        window.onload = function() {
+            var message = "{{ get_flashed_messages()|safe }}";
+            if (message.length>2) {
+                alert(message);  
+            }
+        };
+    </script>
+    
+</body>
+{% endblock %}
